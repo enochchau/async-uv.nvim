@@ -20,7 +20,6 @@ local a = require "async"
 function readFile(path)
     return a.sync(function()
         local err, fd = a.wait(uv.fs_open(path, "r", 438))
-        print(fd)
         assert(not err, err)
         local err, stat = a.wait(uv.fs_fstat(fd))
         assert(not err, err)
