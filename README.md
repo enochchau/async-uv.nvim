@@ -39,6 +39,7 @@ end)()
 
 ## Related
 
-- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim#plenaryasync)
 - [ms-jpq/lua-async-await](https://github.com/ms-jpq/lua-async-await)
 - [lewis6991/async.nvim](https://github.com/lewis6991/async.nvim)
+- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim#plenaryasync): includes an async wrapper for some libuv functions
+- [wbthomason/packer.nvim](https://github.com/wbthomason/packer.nvim/blob/502a89f72ee5db3907dd0c7ee36287d49cfa56a0/lua/packer/async.lua): the plugin implements it's own async library
