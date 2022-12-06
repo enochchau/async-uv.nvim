@@ -36,3 +36,9 @@ a.sync(function()
     end)
 end)()
 ```
+
+## Related
+
+- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim#plenaryasync)
+- [ms-jpq/lua-async-await](https://github.com/ms-jpq/lua-async-await)
+- [lewis6991/async.nvim](https://github.com/lewis6991/async.nvim)
