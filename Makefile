@@ -1,14 +1,22 @@
 SHELL:=/bin/bash
 
+FNL := fnl/async-uv.fnl
+LUA := lua/async-uv.lua
+UV_CALLBACKS := uv-callbacks.txt
+
 .PHONY: all
-all: lua/async-uv.lua
+all: $(LUA)
 
-uv-callbacks.txt:
-	curl -s https://raw.githubusercontent.com/neovim/neovim/master/runtime/doc/luvref.txt | grep -e "^uv.*callback" | sed 's/(.*$$//' > uv-callbacks.txt
+$(UV_CALLBACKS):
+	curl -s https://raw.githubusercontent.com/neovim/neovim/master/runtime/doc/luvref.txt | grep -e "^uv.*callback" | sed 's/(.*$$//' > $(UV_CALLBACKS)
 
-lua/async-uv.lua: fnl/async-uv.fnl uv-callbacks.txt
-	nvim --headless -c 'BulbCompile fnl/async-uv.fnl lua/async-uv.lua' +q
+$(LUA): $(FNL) $(UV_CALLBACKS)
+	nvim --headless -c 'BulbCompile $(FNL) $(LUA)' +q
+
+.PHONY: fmt
+fmt:
+	stylua . && fnlfmt --fix $(FNL)
 
 .PHONY: clean
 clean:
-	rm uv-callbacks.txt lua/async-uv.lua
+	rm $(UV_CALLBACKS) $(LUA)

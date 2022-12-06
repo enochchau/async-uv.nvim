@@ -1,15 +1,20 @@
 (local a (require :async))
 
 (macro gen-uv []
-  (fn get-callback-func []
+  (fn get-cb-set []
     (with-open [f (io.open :./uv-callbacks.txt :r)]
-      (icollect [names (f:lines)]
-        ;; remove `uv.` prefix
-        (string.sub names 4))))
+      (accumulate [cb-set {} name (f:lines)]
+        (do
+          ;; remove `uv.` prefix
+          (tset cb-set (string.sub name 4) true)
+          cb-set))))
 
-  (accumulate [uv {} _ v (ipairs (get-callback-func))]
-    (do
-      (tset uv v `(a.wrap (. vim.loop ,v)))
-      uv)))
+  (let [cb-set (get-cb-set)]
+    (accumulate [uv {} k _ (pairs vim.loop)]
+      (do
+        (if (. cb-set k)
+            (tset uv k `(a.wrap (. vim.loop ,k)))
+            (tset uv k `(. vim.loop ,k)))
+        uv))))
 
 (gen-uv)
